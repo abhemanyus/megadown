@@ -1,10 +1,12 @@
 import { reddit, redHeaders } from "./adapters/reddit.js";
 import { pixiv, pixHeaders } from "./adapters/pixiv.js";
 import { generic } from "./adapters/generic.js";
+import { danbooru, danHeaders } from "./adapters/danbooru.js";
 
 const nameToAdapter = {
     'reddit': [reddit, redHeaders],
-    'pixiv': [pixiv, pixHeaders]
+    'pixiv': [pixiv, pixHeaders],
+    'donmai': [danbooru, danHeaders]
 }
 
 
