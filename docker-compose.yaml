@@ -12,7 +12,7 @@ services:
       - MEGA_NUDE=http://nudenet:8080/sync
     volumes:
       - type: bind
-        source: ./sort
+        source: /home/sanndy/Documents/Code/playground/megadown/sort
         target: /sort
 
   nudenet:
