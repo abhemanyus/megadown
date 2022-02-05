@@ -1,0 +1,6 @@
+/node_modules
+/test
+/tmp
+**/*.test.js
+Docker-compose.yaml
+README.md

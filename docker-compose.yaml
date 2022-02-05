@@ -1,0 +1,22 @@
+services:
+  express:
+    build:
+      context: .
+    container_name: megadown
+    depends_on:
+      - nudenet
+    ports:
+      - "6545:8080"
+    environment:
+      - MEGA_ROOT=/sort
+      - MEGA_NUDE=http://nudenet:8080/sync
+    volumes:
+      - type: bind
+        source: ./sort
+        target: /sort
+
+  nudenet:
+    image: notaitech/nudenet:classifier
+    container_name: nudenet
+    expose:
+      - 8080
