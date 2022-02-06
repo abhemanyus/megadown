@@ -9,7 +9,7 @@ export const process = async (url, root = "base", nude, precision) => {
     const [stream, ext] = await urlToStream(url);
     const buffer = await streamToBuffer(stream);
     const result = await classify(buffer, precision, nude);
-    const { hash } = await nodeImageHash.hash(buffer, 8, 'hex');
+    const { hash } = nodeImageHash.syncHash(buffer, 8, 'hex');
     console.log(hash, result);
     const filepath = path.join(root, result, hash + '.' + ext);
     if (fs.existsSync(filepath)) {
