@@ -20,7 +20,7 @@ export const classify = async (buffer, precision = 0.3, nudeNet = "http://localh
 
     if (data.success) {
         const { safe, unsafe } = data.prediction.file;
-        const dist = Math.hypot([unsafe, safe]);
+        const dist = Math.abs(safe-unsafe);
         if (dist < precision) {
             return "fuzzy";
         }
