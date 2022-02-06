@@ -26,7 +26,7 @@ const processFile = folder => async (file) => {
         const prevPath = path.join(folder, file);
         const fileBuffer = fs.readFileSync(prevPath);
         const result = await classify(fileBuffer, pres, nude);
-        const { hash } = await nodeImageHash.hash(fileBuffer, 8, 'hex');
+        const { hash } = nodeImageHash.syncHash(fileBuffer, 8, 'hex');
         const newPath = path.join(PATHS[result], hash + "." + ext);
         fs.renameSync(prevPath, newPath);
     } catch (error) {
