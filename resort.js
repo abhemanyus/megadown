@@ -5,7 +5,7 @@ import path from "path";
 import nodeImageHash from "node-image-hash";
 
 const isImage = (name) => {
-    const regex = /\.(jpe?g|png)$/i
+    const regex = /\.(jpe?g|png|webp)$/i
     const match = regex.exec(name)
     if (match) {
         return match[1];
@@ -26,7 +26,7 @@ const processFile = folder => async (file) => {
         const prevPath = path.join(folder, file);
         const fileBuffer = fs.readFileSync(prevPath);
         const result = await classify(fileBuffer, pres, nude);
-        const { hash } = await nodeImageHash.syncHash(fileBuffer, 8, 'hex');
+        const { hash } = await nodeImageHash.hash(fileBuffer, 8, 'hex');
         const newPath = path.join(PATHS[result], hash + "." + ext);
         fs.renameSync(prevPath, newPath);
     } catch (error) {
@@ -62,6 +62,7 @@ export const resort = async (root, precision, nudeNet) => {
     console.log("Un-Safe done!");
     await processFolder(PATHS.fuzzy, fuzzyFiles);
     console.log("Fuzzy done!");
+    nodeImageHash.close();
 
     console.log('Re-Sort done!');
 }
