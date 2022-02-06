@@ -5,7 +5,7 @@ import path from "path";
 import nodeImageHash from "node-image-hash";
 
 const isImage = (name) => {
-    const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i
+    const regex = /\.(jpe?g|png)$/i
     const match = regex.exec(name)
     if (match[1]) {
         return match[1];

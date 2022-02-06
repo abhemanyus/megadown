@@ -11,7 +11,7 @@ const nameToAdapter = {
 
 
 const checkImage = (name) => {
-    const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i
+    const regex = /\.(jpe?g|png)$/i
     return regex.exec(name)
 }
 
