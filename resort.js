@@ -17,7 +17,7 @@ let PATHS = {};
 let pres = 0;
 let nude = null;
 
-const processFile = folder => async(file) => {
+const processFile = folder => async (file) => {
     const ext = isImage(file);
     if (!ext) {
         return;
@@ -26,7 +26,7 @@ const processFile = folder => async(file) => {
         const prevPath = path.join(folder, file);
         const fileBuffer = fs.readFileSync(prevPath);
         const result = await classify(fileBuffer, pres, nude);
-        const {hash} = await nodeImageHash.hash(fileBuffer, 8, 'hex');
+        const { hash } = await nodeImageHash.hash(fileBuffer, 8, 'hex');
         const newPath = path.join(PATHS[result], hash + "." + ext);
         fs.renameSync(prevPath, newPath);
     } catch (error) {
@@ -34,8 +34,7 @@ const processFile = folder => async(file) => {
     }
 }
 
-const processFolder = async (folder) => {
-    const files = fs.readdirSync(folder);
+const processFolder = async (folder, files) => {
     const folderFile = processFile(folder);
     await Promise.all(files.map(folderFile));
 }
@@ -46,8 +45,20 @@ export const resort = async (root, precision, nudeNet) => {
         unsafe: path.join(root, "unsafe"),
         fuzzy: path.join(root, "fuzzy")
     }
-    pres = precision;
-    nude = nudeNet;
-    await Promise.all(Object.values(PATHS).map(processFolder));
+
+    nude = nudeNet
+    pres = precision
+
+    const safeFiles = fs.readdirSync(PATHS.safe);
+    const unsafeFiles = fs.readdirSync(PATHS.unsafe);
+    const fuzzyFiles = fs.readdirSync(PATHS.fuzzy);
+
+    await processFolder(PATHS.safe, safeFiles);
+    console.log("Safe done!");
+    await processFolder(PATHS.unsafe, unsafeFiles);
+    console.log("Un-Safe done!");
+    await processFolder(PATHS.fuzzy, fuzzyFiles);
+    console.log("Fuzzy done!");
+
     console.log('Re-Sort done!');
 }
