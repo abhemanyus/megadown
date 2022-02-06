@@ -34,9 +34,11 @@ const processFile = folder => async (file) => {
     }
 }
 
-const processFolder = async (folder, files) => {
+const processFolder = async (folder, files = []) => {
     const folderFile = processFile(folder);
-    await Promise.all(files.map(folderFile));
+    files.forEach(file => {
+        await folderFile(file)
+    })
 }
 
 export const resort = async (root, precision, nudeNet) => {
