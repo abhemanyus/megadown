@@ -26,7 +26,7 @@ const processFile = folder => async (file) => {
         const prevPath = path.join(folder, file);
         const fileBuffer = fs.readFileSync(prevPath);
         const result = await classify(fileBuffer, pres, nude);
-        const { hash } = nodeImageHash.syncHash(fileBuffer, 8, 'hex');
+        const { hash } = await nodeImageHash.syncHash(fileBuffer, 8, 'hex');
         const newPath = path.join(PATHS[result], hash + "." + ext);
         fs.renameSync(prevPath, newPath);
     } catch (error) {
@@ -36,9 +36,10 @@ const processFile = folder => async (file) => {
 
 const processFolder = async (folder, files = []) => {
     const folderFile = processFile(folder);
-    files.forEach(file => {
-        await folderFile(file)
-    })
+    for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+        await folderFile(file);
+    }
 }
 
 export const resort = async (root, precision, nudeNet) => {
