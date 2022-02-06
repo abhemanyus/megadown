@@ -7,7 +7,7 @@ import nodeImageHash from "node-image-hash";
 const isImage = (name) => {
     const regex = /\.(jpe?g|png)$/i
     const match = regex.exec(name)
-    if (match[1]) {
+    if (match) {
         return match[1];
     }
     return null
